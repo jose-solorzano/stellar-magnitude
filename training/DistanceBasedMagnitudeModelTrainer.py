@@ -10,7 +10,7 @@ from torch import nn, optim
 from models.DistanceBasedMagnitudeModel import DistanceBasedMagnitudeModel
 
 
-class MagnitudeModelTrainer:
+class DistanceBasedMagnitudeModelTrainer:
     def __init__(self, num_passes: int, num_splits: int, max_training_items: int, num_epochs: int, lr: float,
                  id_column='source_id', response_column='response', target_column='phot_g_mean_mag'):
         self.num_passes = num_passes

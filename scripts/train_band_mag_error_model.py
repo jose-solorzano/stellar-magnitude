@@ -16,15 +16,15 @@ def run(num_passes: int, num_splits: int, max_training_items, num_epochs: int, l
     print('Loading data...')
     data_frame = pd.read_csv(in_file)
     print(f'Loaded {len(data_frame)} rows.')
-    mag_model_file = os.path.join(out_dir, 'magnitude-model.csv')
+    mag_model_file = os.path.join(out_dir, 'allwise-w3-model.csv')
     mag_model_frame = pd.read_csv(mag_model_file)
     merged_frame = pd.merge(data_frame, mag_model_frame, on='source_id', how='inner')
     response_frame = trainer.train_error_model(merged_frame)
     merged_frame = pd.merge(mag_model_frame, response_frame, on='source_id', how='inner')
     merged_frame['est_mag_error'] = np.sqrt(merged_frame['modeled_sq_error'])
-    merged_frame['mag_anomaly'] = merged_frame['mag_model_residual'] / merged_frame['est_mag_error']
+    merged_frame['w3_anomaly'] = merged_frame['mag_model_residual'] / merged_frame['est_mag_error']
     merged_frame.drop(['modeled_sq_error'], axis=1, inplace=True)
-    out_file = os.path.join(out_dir, 'magnitude-model-with-error.csv')
+    out_file = os.path.join(out_dir, 'allwise-w3-model-with-error.csv')
     merged_frame.to_csv(out_file, index=False)
     print(f'Wrote {out_file}')
 
